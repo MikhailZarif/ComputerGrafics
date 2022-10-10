@@ -1,0 +1,97 @@
+<HTML>
+<Body>
+<canvas id="Task2" width="1500" height="800" style="background: dimgray"></canvas>
+<script>
+    let canvas = document.getElementById("Task2");
+    let ctx = canvas.getContext("2d");
+    let img = new Image()
+    let data = ctx.getImageData(0, 0, 1500, 800);
+    let pos1 = 0;
+    let pos2 = 0;
+
+    // Альтернативный вариант решения функции draw()
+    /*function draw() {
+        // y = x + b
+        for (let j = 0; j < 101; j++) {
+            for (let i = 0; i < 101 * 4; i += 4) {
+                if ((j === 0) || (i === 0)) {
+                    data.data[i + j * 1500 * 4] = 143;
+                    data.data[i + 1 + j * 1500 * 4] = 188;
+                    data.data[i + 2 + j * 1500 * 4] = 143;
+                    data.data[i + 3 + j * 1500 * 4] = 255;
+                } else {
+                    data.data[i + j * 1500 * 4] = 255;
+                    data.data[i + 1 + j * 1500 * 4] = 0;
+                    data.data[i + 2 + j * 1500 * 4] = 0;
+                    data.data[i + 3 + j * 1500 * 4] = 255;
+                }
+            }
+        }
+        ctx.putImageData(data, pos, pos);
+        pos++;
+    }*/
+
+    function draw_right() {
+        for (let j = 0; j < 100; j++) {
+            for (let i = 0; i < 100 * 4; i += 4) {
+                if ((pos1 !== 0) && ((j === 0) || (i === 0))) {
+                    data.data[(pos1 - 1) * 1500 * 4 + (pos1 - 1) * 4 + i + j * 1500 * 4] = 105;
+                    data.data[(pos1 - 1) * 1500 * 4 + (pos1 - 1) * 4 + i + j * 1500 * 4 + 1] = 105;
+                    data.data[(pos1 - 1) * 1500 * 4 + (pos1 - 1) * 4 + i + j * 1500 * 4 + 2] = 105;
+                    data.data[(pos1 - 1) * 1500 * 4 + (pos1 - 1) * 4 + i + j * 1500 * 4 + 3] = 255;
+                } else {
+                    data.data[pos1 * 1500 * 4 + pos1 * 4 + i + j * 1500 * 4] = 165;
+                    data.data[pos1 * 1500 * 4 + pos1 * 4 + i + 1 + j * 1500 * 4] = 42;
+                    data.data[pos1 * 1500 * 4 + pos1 * 4 + i + 2 + j * 1500 * 4] = 42;
+                    data.data[pos1 * 1500 * 4 + pos1 * 4 + i + 3 + j * 1500 * 4] = 255;
+                }
+            }
+        }
+        ctx.putImageData(data, 0, 0);
+        pos1++;
+    }
+
+    function draw_left() {
+        for (let j = 0; j < 100; j++) {
+            for (let i = 1400 * 4; i < 1500 * 4; i += 4) {
+                if ((pos2 !== 0) && ((j === 0) || (i === 5996))) {
+                    data.data[(pos2 - 1) * 1500 * 4 - (pos2 - 1) * 4 + i + j * 1500 * 4] = 105;
+                    data.data[(pos2 - 1) * 1500 * 4 - (pos2 - 1) * 4 + i + j * 1500 * 4 + 1] = 105;
+                    data.data[(pos2 - 1) * 1500 * 4 - (pos2 - 1) * 4 + i + j * 1500 * 4 + 2] = 105;
+                    data.data[(pos2 - 1) * 1500 * 4 - (pos2 - 1) * 4 + i + j * 1500 * 4 + 3] = 255;
+                } else {
+                    data.data[pos2 * 1500 * 4 - pos2 * 4 + i + j * 1500 * 4] = 165;
+                    data.data[pos2 * 1500 * 4 - pos2 * 4 + i + 1 + j * 1500 * 4] = 42;
+                    data.data[pos2 * 1500 * 4 - pos2 * 4 + i + 2 + j * 1500 * 4] = 42;
+                    data.data[pos2 * 1500 * 4 - pos2 * 4 + i + 3 + j * 1500 * 4] = 255;
+                }
+            }
+        }
+        ctx.putImageData(data, 0, 0);
+        pos2++;
+    }
+
+    let coin = Math.floor(Math.random() * 2);
+    let timer1, timer2;
+
+    function drawing() {
+        if (coin % 2 === 0) {
+            pos1 = 0;
+            timer1 = setInterval(draw_right, 5);
+            setTimeout(() => {
+                clearInterval(timer1);
+            }, 4000);
+        } else {
+            pos2 = 0;
+            timer2 = setInterval(draw_left, 5);
+            setTimeout(() => {
+                clearInterval(timer2);
+            }, 4000);
+        }
+        coin++;
+    }
+
+    setInterval(drawing, 4000);
+</script>
+</Body>
+</HTML>
